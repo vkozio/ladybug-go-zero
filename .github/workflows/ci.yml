@@ -30,6 +30,10 @@ jobs:
       - name: Download Ladybug libs
         run: ./scripts/download_liblbug.sh v0.14.2-bindings.0 ${{ matrix.platform }} .
         shell: bash
+      - name: Add Windows DLL dir to PATH
+        if: matrix.platform == 'windows-amd64'
+        run: echo "PATH=${{ github.workspace }}\lib\dynamic\windows-amd64;$env:PATH" >> $env:GITHUB_ENV
+        shell: pwsh
       - name: Build
         run: go build ./...
       - name: Test
