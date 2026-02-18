@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux-amd64
+            runner: ubuntu-latest
+          - platform: darwin
+            runner: macos-latest
+          - platform: windows-amd64
+            runner: windows-latest
+          # linux-arm64: requires self-hosted ARM runner or skip for now
+          # - platform: linux-arm64
+          #   runner: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+      - name: Download Ladybug libs
+        run: ./scripts/download_liblbug.sh v0.14.2-bindings.0 ${{ matrix.platform }} .
+        shell: bash
+      - name: Build
+        run: go build ./...
+      - name: Test
+        run: go test ./... -v
