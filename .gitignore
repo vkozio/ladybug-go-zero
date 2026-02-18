@@ -20,6 +20,9 @@ profile.cov
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# Downloaded Ladybug libs (run scripts/download_liblbug.sh to fetch)
+# include/ and lib/ are not ignored so layout can be committed; binaries (*.so, *.dylib, *.dll) are ignored above
+
 # Go workspace file
 go.work
 go.work.sum
@@ -28,5 +31,6 @@ go.work.sum
 .env
 
 # Editor/IDE
-# .idea/
-# .vscode/
+.idea/
+.vscode/
+.cursor
